@@ -1,5 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 from .views import CommentViewSet, FollowViewSet, GroupViewsSet, PostViewsSet
 
@@ -12,5 +14,11 @@ router_v1.register(
     r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comments')
 
 urlpatterns = [
-    path('', include(router_v1.urls)),
+    path('v1/', include(router_v1.urls)),
 ]
+
+urlpatterns += [
+    path('api/v1/token/', TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('api/v1/token/refresh/', TokenRefreshView.as_view(),
+         name='token_refresh')]
