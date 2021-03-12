@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
         many=False, read_only=True, slug_field='username')
 
     class Meta:
-        fields = ('id', 'text', 'author', 'pub_date')
+        exclude = ('group',)
         model = Post
 
 

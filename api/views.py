@@ -35,23 +35,19 @@ class CommentViewSet(viewsets.ModelViewSet):
         return comments
 
 
-get_post_mixins = (mixins.CreateModelMixin,
-                   mixins.ListModelMixin,
-                   viewsets.GenericViewSet)
-#  Не понимаю как вынести правильно, прошу подсказать
+class MyCreateListViewSet(mixins.CreateModelMixin,  # Точняк!
+                          mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
+    pass
 
 
-class GroupViewsSet(get_post_mixins[0],
-                    get_post_mixins[1],
-                    get_post_mixins[2]):
+class GroupViewsSet(MyCreateListViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class FollowViewSet(get_post_mixins[0],
-                    get_post_mixins[1],
-                    get_post_mixins[2]):
+class FollowViewSet(MyCreateListViewSet):
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter]
